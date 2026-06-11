@@ -1,0 +1,287 @@
+:root {
+  --wood: #e3b061;
+  --wood-edge: #b07d33;
+  --line: #4a3211;
+  --ink: #1c1407;
+  --bg: #3b4a5e;        /* dark bluish grey (clearly blue-grey, not near-black) */
+  --bg-edge: #313e4f;   /* slightly deeper, for the page gradient */
+  --panel: #45556a;     /* lighter blue-grey panels/cards */
+  --border: #57677c;
+  --text: #e7e9ee;
+  --muted: #aab2c0;
+  --accent: #6ea8fe;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--bg-edge) 100%);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  padding: 24px 24px 56px;
+}
+
+/* Two columns: all the text/controls on the left, the board on the right. */
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.sidebar {
+  width: 340px;
+  flex: none;
+}
+
+.boardarea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.brand { text-align: left; }
+
+/* "Back to home" sits on its own across the top-left of the page. The negative
+   left margin breaks it out of the centered column so it hugs the browser's
+   left edge (~16px) regardless of window width. */
+.pagebar {
+  margin-bottom: 18px;
+  margin-left: calc(50% - 50vw + 16px);
+}
+
+/* Polished orange-metal button. */
+.btn-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  color: #3a1c00;
+  padding: 9px 18px;
+  border-radius: 9px;
+  border: 1px solid #7a3f06;
+  background:
+    linear-gradient(180deg,
+      #ffe1ad 0%,
+      #ffb84d 16%,
+      #fa8c16 50%,
+      #d46b08 80%,
+      #a84b00 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -2px 3px rgba(120, 50, 0, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: filter 0.12s ease, transform 0.05s ease;
+  flex: none;
+  white-space: nowrap;
+}
+
+.btn-home:hover { filter: brightness(1.08) saturate(1.05); }
+
+.btn-home:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 3px rgba(90, 40, 0, 0.6),
+    0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.btn-home:focus-visible {
+  outline: 2px solid #ffd591;
+  outline-offset: 2px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+h1 .sub {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.byline { margin: 6px 0 0; color: var(--muted); font-size: 0.9rem; }
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 18px 0 14px;
+}
+
+.ctl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.ctl select { flex: 0 0 58%; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.actions .btn { flex: 1 1 auto; }
+
+select, .btn {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn:hover { border-color: var(--accent); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:disabled:hover { border-color: var(--border); }
+
+.status {
+  text-align: center;
+  min-height: 1.6em;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.status .warn { color: #ffb454; font-weight: 600; }
+.status .win { color: var(--accent); }
+.status .note { color: var(--muted); font-weight: 400; }
+
+select:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.boardwrap {
+  background: linear-gradient(160deg, var(--wood), var(--wood-edge));
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 640px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.caps {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.caps b { color: var(--text); }
+
+/* Hamburger dropdown menus (How to play / Tips on how to win). */
+.menus {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+
+.menu { position: relative; }
+
+.menu > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  white-space: nowrap;
+}
+
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary:hover { border-color: var(--accent); }
+.menu[open] > summary { border-color: var(--accent); }
+
+/* Go-stones icon (black + white overlapping stones) on the menu buttons.
+   Inlined as real SVG in the markup, so it can't be blocked or fail to load. */
+.ham {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  display: block;
+}
+
+.menu-panel {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 16px 12px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.menu-panel p { margin: 10px 0; }
+.menu-panel ul { margin: 8px 0; padding-left: 20px; }
+.menu-panel li { margin: 5px 0; }
+.menu-panel b { color: var(--text); }
+
+/* Stack the board under the controls on narrower screens. */
+@media (max-width: 860px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .boardarea { width: 100%; justify-content: flex-start; }
+  .boardwrap { max-width: 560px; }
+}
+
+@media (max-width: 520px) {
+  .menus { width: 100%; }
+  .menu { flex: 1; }
+  .menu > summary { justify-content: center; width: 100%; }
+  .menu-panel { width: calc(100vw - 40px); }
+}

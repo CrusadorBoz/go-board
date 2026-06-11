@@ -1,0 +1,11 @@
+# Compiled binary (built from source with `go build`)
+/go-board
+
+# Go build artifacts
+*.exe
+*.test
+*.out
+
+# Deployment scripts contain bozcode.com-specific infra details (paths,
+# service account, internal socket/port) — kept local, not published.
+/deploy/

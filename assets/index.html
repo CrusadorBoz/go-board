@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Go (board game) — bozcode</title>
+  <meta name="description" content="Play Go (Weiqi / Baduk) in your browser — against a computer opponent (easy, medium, hard), watch computer vs computer, or two-player hot-seat. Free, with rules and strategy tips.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bozcode.com/goapp/go-board/">
+  <link rel="icon" type="image/svg+xml" href="icon.svg?v=8">
+  <link rel="stylesheet" href="styles.css?v=8">
+</head>
+<body>
+  <main class="wrap">
+    <div class="pagebar">
+      <a class="btn-home" href="/">&#8592; Back to home</a>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">
+          <h1>Go <span class="sub">Weiqi · Baduk</span></h1>
+          <p class="byline" id="byline">Loading…</p>
+        </div>
+
+        <nav class="menus">
+          <details class="menu">
+            <summary>
+              <svg class="ham" viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="12" cy="16" r="9" fill="#141414"/>
+                <circle cx="8.6" cy="12.6" r="2.7" fill="#ffffff" opacity="0.38"/>
+                <circle cx="20" cy="16" r="9" fill="#f6f6f6" stroke="#141414" stroke-width="1"/>
+                <circle cx="16.8" cy="12.8" r="2.3" fill="#ffffff"/>
+              </svg>
+              <span class="menu-label">How to play</span>
+            </summary>
+            <div class="menu-panel">
+              <p><b>Goal —</b> control more of the board than your opponent. You score
+              the empty points you surround plus your stones left on the board.</p>
+              <ul>
+                <li><b>Placing stones.</b> Click any empty intersection. Black plays
+                  first, then turns alternate. Stones don't move once placed.</li>
+                <li><b>Liberties.</b> A stone's liberties are the empty points directly
+                  next to it (up/down/left/right). Connected same-colour stones share
+                  their liberties as one group.</li>
+                <li><b>Capturing.</b> Fill the last liberty of an enemy group and it is
+                  captured — removed from the board. Surround to capture.</li>
+                <li><b>No suicide.</b> You can't place a stone that would have no
+                  liberties, <i>unless</i> that same move captures an enemy group.</li>
+                <li><b>Ko.</b> You may not immediately recapture in a way that exactly
+                  repeats the previous position — play elsewhere first (the spot is
+                  marked with a small red square).</li>
+                <li><b>Passing &amp; ending.</b> Click <b>Pass</b> to skip your turn.
+                  Two passes in a row end the game and it is scored automatically.</li>
+                <li><b>Undo / redo.</b> Use <b>Back</b> to step to earlier positions and
+                  <b>Forward</b> to replay up to the latest move. Playing a new move from
+                  a rewound spot starts a fresh line from there.</li>
+                <li><b>Scoring.</b> Area rules: your stones + the empty regions only you
+                  surround. White gets <b>6.5</b> komi to offset Black's first move.
+                  Higher total wins.</li>
+              </ul>
+              <p><b>Computer opponent —</b> by default you play <b>Black</b> against a
+              <b>Medium</b> computer (White). Use the controls to switch difficulty, or
+              choose <b>Two players</b> to play both colours yourself, then press
+              <b>New game</b>.</p>
+            </div>
+          </details>
+
+          <details class="menu">
+            <summary>
+              <svg class="ham" viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="12" cy="16" r="9" fill="#141414"/>
+                <circle cx="8.6" cy="12.6" r="2.7" fill="#ffffff" opacity="0.38"/>
+                <circle cx="20" cy="16" r="9" fill="#f6f6f6" stroke="#141414" stroke-width="1"/>
+                <circle cx="16.8" cy="12.8" r="2.3" fill="#ffffff"/>
+              </svg>
+              <span class="menu-label">Tips on how to win</span>
+            </summary>
+            <div class="menu-panel">
+              <p><b>Winning isn't about capturing — it's about surrounding space.</b>
+              You win by enclosing more territory (plus your stones) than your
+              opponent. Captures are a means, not the goal.</p>
+              <ul>
+                <li><b>Take the corners first, then the sides.</b> Corners need the
+                  fewest stones to wall off territory because the board edge does part
+                  of the work for you. Sides are next; the centre is the hardest place
+                  to make points. Open the game near the corners.</li>
+                <li><b>Stay a little loose in the opening.</b> Don't pile stones right
+                  next to each other early — spread them out to stake big frameworks,
+                  then fill in. Stones two or three points apart claim far more space.</li>
+                <li><b>Keep your groups connected.</b> Two connected groups share
+                  liberties and are hard to kill; two split groups can each be hunted
+                  down. When in doubt, link up rather than scatter.</li>
+                <li><b>Count liberties in every fight.</b> Before a contact battle,
+                  compare liberties. If your group has more liberties than the enemy
+                  group next to it, you usually win the capturing race — if fewer, run
+                  or connect instead of adding fuel.</li>
+                <li><b>Watch for atari (one liberty left).</b> If your group is in
+                  atari, save it (extend or capture) or sacrifice it on purpose. If the
+                  enemy is in atari, decide whether capturing actually helps or just
+                  wastes a move.</li>
+                <li><b>Make two eyes to live.</b> A group with two separate internal
+                  empty points (two eyes) can never be captured. Groups that can't make
+                  two eyes will eventually die — so secure life for your big groups and
+                  deny it to the opponent's.</li>
+                <li><b>Don't fill your own eyes.</b> Playing inside your own eye space
+                  turns a living group into a killable one. Leave those points empty.</li>
+                <li><b>Sente — keep the initiative.</b> Prefer moves that force a reply
+                  (a threat to capture or cut). While the opponent is busy answering,
+                  you choose where the game goes next.</li>
+                <li><b>Use the komi.</b> As Black you move first but White gets 6.5
+                  points of komi. You need to net <b>7+ points</b> of advantage from
+                  that first-move lead — play actively, don't just match White.</li>
+                <li><b>Endgame: take the biggest open boundary first.</b> When the board
+                  is mostly settled, play the moves that swing the most points — usually
+                  the largest undecided borders between the two territories — before the
+                  small ones.</li>
+                <li><b>Versus the computer:</b> it reacts move-by-move without deep
+                  planning. Build a large framework, keep your groups connected and
+                  alive, and avoid needless contact fights — steady territory beats it
+                  more reliably than trying to capture everything.</li>
+              </ul>
+              <p><b>Two passes end the game.</b> Once the borders are settled and
+              neither side can profitably invade, pass — if your enclosed area plus
+              stones (and komi) is higher, you win.</p>
+            </div>
+          </details>
+        </nav>
+
+        <div class="controls">
+          <label class="ctl">Opponent
+            <select id="opponent">
+              <option value="computer" selected>Computer</option>
+              <option value="human">Two players</option>
+              <option value="auto">Computer vs Computer</option>
+            </select>
+          </label>
+          <label class="ctl">Level
+            <select id="level">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <label class="ctl">Board
+            <select id="size">
+              <option value="9" selected>9 × 9</option>
+              <option value="13">13 × 13</option>
+              <option value="19">19 × 19</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="new" class="btn">New game</button>
+          <button id="pass" class="btn">Pass</button>
+          <button id="playpause" class="btn" hidden>Pause</button>
+          <button id="step" class="btn" hidden>Step &#9654;</button>
+          <button id="undo" class="btn" disabled>&#9664; Back</button>
+          <button id="redo" class="btn" disabled>Forward &#9654;</button>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite">Loading…</div>
+        <div id="caps" class="caps"></div>
+      </aside>
+
+      <div class="boardarea">
+        <div class="boardwrap">
+          <canvas id="board" aria-label="Go board" role="img"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js?v=3"></script>
+</body>
+</html>
