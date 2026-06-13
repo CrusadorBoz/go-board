@@ -3,10 +3,10 @@
   --wood-edge: #b07d33;
   --line: #4a3211;
   --ink: #1c1407;
-  --bg: #3b4a5e;        /* dark bluish grey (clearly blue-grey, not near-black) */
-  --bg-edge: #313e4f;   /* slightly deeper, for the page gradient */
-  --panel: #45556a;     /* lighter blue-grey panels/cards */
-  --border: #57677c;
+  --bg: #4a5b71;        /* blue-grey, lightened a notch (was #3b4a5e) */
+  --bg-edge: #3e4d61;   /* slightly deeper, for the page gradient */
+  --panel: #54657d;     /* lighter blue-grey panels/cards */
+  --border: #647590;
   --text: #e7e9ee;
   --muted: #aab2c0;
   --accent: #6ea8fe;
