@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"os"
 	"sync"
+	"time"
 )
 
 const (
@@ -43,6 +44,7 @@ var assets embed.FS
 
 func main() {
 	st := newStore()
+	go st.sweepEvery(sweepInterval)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handleIndex)
 	mux.HandleFunc("/styles.css", serveAsset("assets/styles.css", "text/css; charset=utf-8"))
@@ -69,19 +71,20 @@ func main() {
 type store struct {
 	mu    sync.Mutex
 	games map[string]*Game
+	seen  map[string]time.Time // last use of each game (sessions.go)
 }
 
-func newStore() *store { return &store{games: map[string]*Game{}} }
+func newStore() *store { return &store{games: map[string]*Game{}, seen: map[string]time.Time{}} }
 
 // with runs fn against the caller's game under lock, creating a default 9×9
 // match the first time a session is seen.
 func (s *store) with(id string, fn func(g *Game)) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	g := s.games[id]
+	g := s.getLocked(id)
 	if g == nil {
 		g = newGame(9)
-		s.games[id] = g
+		s.putLocked(id, g)
 	}
 	fn(g)
 }
@@ -89,7 +92,7 @@ func (s *store) with(id string, fn func(g *Game)) {
 func (s *store) reset(id string, g *Game) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	s.games[id] = g
+	s.putLocked(id, g)
 }
 
 // ---------------------------------------------------------------------------
@@ -123,7 +126,7 @@ func (s *store) handleMove(w http.ResponseWriter, r *http.Request) {
 		}
 		msg := g.play(body.X, body.Y)
 		if msg == "" {
-			g.aiRespond()  // computer replies in the same request, if enabled
+			g.aiRespond()   // computer replies in the same request, if enabled
 			g.pushHistory() // record the completed position for undo/redo
 		}
 		out = dto(g, msg)
@@ -315,7 +318,7 @@ func serveAsset(key, mime string) http.HandlerFunc {
 
 // sessionID reads the session cookie or mints a new one (set on the response).
 func sessionID(w http.ResponseWriter, r *http.Request) string {
-	if c, err := r.Cookie(cookieName); err == nil && c.Value != "" {
+	if c, err := r.Cookie(cookieName); err == nil && validSessionID(c.Value) {
 		return c.Value
 	}
 	b := make([]byte, 16)

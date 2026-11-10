@@ -129,8 +129,17 @@ func (g *Game) restore(s snapshot) {
 // forward (redo) tail left from an earlier rewind.
 func (g *Game) pushHistory() {
 	g.hist = append(g.hist[:g.cur+1], g.takeSnapshot())
+	if len(g.hist) > maxHistory {
+		// Keep the newest maxHistory positions (copied, so the dropped ones
+		// can be freed). Undo then stops at the oldest kept position.
+		g.hist = append([]snapshot(nil), g.hist[len(g.hist)-maxHistory:]...)
+	}
 	g.cur = len(g.hist) - 1
 }
+
+// maxHistory caps undo history per game: a 19×19 snapshot is ~3 KB, and an
+// endless game must not grow without bound (security review 2026-11-08).
+const maxHistory = 1000
 
 func (g *Game) canUndo() bool { return g.cur > 0 }
 func (g *Game) canRedo() bool { return g.cur < len(g.hist)-1 }
