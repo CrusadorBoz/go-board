@@ -9,3 +9,15 @@
 # Deployment scripts contain bozcode.com-specific infra details (paths,
 # service account, internal socket/port) — kept local, not published.
 /deploy/
+
+# Previous, staged and failed builds kept beside the running one
+/go-board.*
+
+# Never commit: databases, cookie jars, keys
+*.db
+*.db-*
+*.sqlite*
+*jar.txt
+.env*
+*.pem
+*.key
