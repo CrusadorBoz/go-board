@@ -61,7 +61,17 @@ func main() {
 
 	addr := listenAddr()
 	log.Printf("go-board listening on %s", addr)
-	log.Fatal(http.ListenAndServe(addr, logRequests(mux)))
+	// Timeouts: a client that opens a connection and stalls must not hold it
+	// forever (nginx sits in front, but do not depend on it).
+	srv := &http.Server{
+		Addr:              addr,
+		Handler:           logRequests(mux),
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
+	log.Fatal(srv.ListenAndServe())
 }
 
 // ---------------------------------------------------------------------------

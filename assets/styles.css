@@ -3,12 +3,12 @@
   --wood-edge: #b07d33;
   --line: #4a3211;
   --ink: #1c1407;
-  --bg: #6a7b92;        /* blue-grey, lightened again (was #3b4a5e) */
-  --bg-edge: #5b6a80;   /* slightly deeper, for the page gradient */
-  --panel: #74869f;     /* lighter blue-grey panels/cards */
+  --bg: #5c6d85;        /* blue-grey; the lightest that white text can be read on (4.5:1) is #63768f */
+  --bg-edge: #55657b;   /* slightly deeper, for the page gradient */
+  --panel: #61728a;     /* lighter blue-grey panels/cards */
   --border: #8697af;
-  --text: #e7e9ee;
-  --muted: #aab2c0;
+  --text: #ffffff;
+  --muted: #f4f7fb;
   --accent: #6ea8fe;
 }
 
@@ -139,7 +139,7 @@ h1 .sub {
   font-size: 0.9rem;
 }
 
-.ctl select { flex: 0 0 58%; }
+.ctl select { flex: 0 0 58%; min-width: 0; }
 
 .actions {
   display: flex;
@@ -172,8 +172,8 @@ select, .btn {
   font-weight: 600;
 }
 
-.status .warn { color: #ffb454; font-weight: 600; }
-.status .win { color: var(--accent); }
+.status .warn { color: #ffe3b8; font-weight: 600; }
+.status .win { color: #e3eeff; }
 .status .note { color: var(--muted); font-weight: 400; }
 
 select:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -283,5 +283,5 @@ canvas {
   .menus { width: 100%; }
   .menu { flex: 1; }
   .menu > summary { justify-content: center; width: 100%; }
-  .menu-panel { width: calc(100vw - 40px); }
+  .menu-panel { width: calc(100vw - 64px); }
 }
